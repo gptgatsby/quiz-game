@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background-color: #f4f4f9;
+        }
+        .question {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        .options button {
+            font-size: 18px;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background-color: #333;
+            color: white;
+            border-radius: 4px;
+            width: 100%;
+            margin: 5px 0;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .next-button {
+            font-size: 18px;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 4px;
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h2>Quiz Game</h2>
+        <div class="question" id="question">Loading question...</div>
+        <ul class="options" id="options"></ul>
+        <div class="result" id="result"></div>
+        <button class="next-button" id="next-button" onclick="nextQuestion()">Next Question</button>
+    </div>
+
+    <script>
+        // Quiz game questions array
+        const questions = [
+            { question: "What does AI stand for?", options: ["Automated Intelligence", "Artificial Intelligence", "Advanced Internet", "Applied Informatics"], answer: 1 },
+            { question: "Which technology is the foundation of cryptocurrency?", options: ["Blockchain", "AI", "Quantum Computing", "Cloud Computing"], answer: 0 },
+            { question: "What does NFT stand for?", options: ["Non-Fundable Token", "Non-Fungible Token", "New Financial Technology", "Network File Transfer"], answer: 1 },
+            { question: "Which of these is a popular cryptocurrency?", options: ["Bytecash", "Ethereum", "Crypto Gold", "Digital Coin"], answer: 1 },
+            { question: "Which consensus mechanism is commonly used in Bitcoin?", options: ["Proof of Stake", "Proof of Work", "Delegated Proof of Stake", "Proof of Authority"], answer: 1 },
+            { question: "What is a 'smart contract'?", options: ["A contract that updates automatically", "A contract written and executed on the blockchain", "An agreement between companies", "A cryptocurrency wallet"], answer: 1 },
+            { question: "Which of the following is NOT a programming language commonly used in AI?", options: ["Python", "Java", "Solidity", "R"], answer: 2 },
+            { question: "In what year was Bitcoin created?", options: ["2015", "2009", "2010", "2008"], answer: 1 },
+            { question: "Which AI model became famous for generating human-like text?", options: ["GPT-3", "BERT", "RoBERTa", "Deep Blue"], answer: 0 },
+            { question: "In blockchain, what is a 'hash' function used for?", options: ["Encrypting messages", "Mining new tokens", "Mapping data to a fixed size", "Validating smart contracts"], answer: 2 }
+        ];
+
+        let currentQuestionIndex = 0;
+
+        function displayQuestion() {
+            const questionElement = document.getElementById("question");
+            const optionsElement = document.getElementById("options");
+            const resultElement = document.getElementById("result");
+            const nextButton = document.getElementById("next-button");
+
+            // Clear previous question data
+            resultElement.innerText = "";
+            nextButton.style.display = "none";
+            optionsElement.innerHTML = "";
+
+            // Set current question
+            const currentQuestion = questions[currentQuestionIndex];
+            questionElement.innerText = currentQuestion.question;
+
+            // Add options as buttons
+            currentQuestion.options.forEach((option, index) => {
+                const button = document.createElement("button");
+                button.innerText = option;
+                button.onclick = () => checkAnswer(index);
+                optionsElement.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedOption) {
+            const currentQuestion = questions[currentQuestionIndex];
+            const resultElement = document.getElementById("result");
+            const nextButton = document.getElementById("next-button");
+
+            if (selectedOption === currentQuestion.answer) {
+                resultElement.innerText = "Correct!";
+                resultElement.style.color = "green";
+            } else {
+                resultElement.innerText = "Incorrect. Try again.";
+                resultElement.style.color = "red";
+            }
+
+            // Show the next button after answering
+            nextButton.style.display = "inline-block";
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
+            displayQuestion();
+        }
+
+        // Initialize the first question
+        displayQuestion();
+    </script>
+</body>
+</html>
